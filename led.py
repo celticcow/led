@@ -8,7 +8,7 @@ def turn_led_on(color):
     GPIO.setup(color, GPIO.OUT)
     
     GPIO.output(color, True)
-#end of turn_led_on
+#end of turn_led_on 
 
 def turn_led_off(color):
     GPIO.setmode(GPIO.BCM)
