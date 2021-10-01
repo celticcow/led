@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 
 import time
+from random import randint
 import RPi.GPIO as GPIO
 
 def set_pin(pin_index, pin_state):
@@ -37,12 +38,23 @@ def main():
     set_pin(1, -1)
     set_pin(2, -1)
 
+    """
+    # user input mode
     while True:
         x = int(input("Pin (0 to 5 / 9 to quit):"))
         if(x == 9):
             break
         light_led(x, pin_led_states)
-    
+    """
+    for i in range(25):
+        led_int = randint(0, 5)
+        print(str(led_int))
+
+        light_led(led_int, pin_led_states)
+        time.sleep(1)
+    #end of for loop
+
+
     GPIO.cleanup()
 #end of main
 
