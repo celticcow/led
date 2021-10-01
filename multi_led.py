@@ -3,35 +3,49 @@
 import time
 import RPi.GPIO as GPIO
 
-
-pins = [18, 23, 24]
-
-pin_led_states = [
-  [1, 0, -1], # A
-  [0, 1, -1], # B
-  [-1, 1, 0], # C
-  [-1, 0, 1], # D
-  [1, -1, 0], # E
-  [0, -1, 1]  # F
-]
-
-GPIO.setmode(GPIO.BCM)
-
 def set_pin(pin_index, pin_state):
+    pins = [18, 23, 24]
+
     if pin_state == -1:
         GPIO.setup(pins[pin_index], GPIO.IN)
     else:
         GPIO.setup(pins[pin_index], GPIO.OUT)
         GPIO.output(pins[pin_index], pin_state)
+#end of set_pin
 
-def light_led(led_number):
+def light_led(led_number, pin_led_states):
     for pin_index, pin_state in enumerate(pin_led_states[led_number]):
         set_pin(pin_index, pin_state)
+#end of light_led
 
-set_pin(0, -1)
-set_pin(1, -1)
-set_pin(2, -1)
 
-while True:
-    x = int(input("Pin (0 to 5):"))
-    light_led(x)
+def main():
+    debug = 1
+    
+    pin_led_states = [
+    [1, 0, -1], # A green top left    0
+    [0, 1, -1], # B blue top right    1
+    [1, -1, 0], # E orange mid left   2
+    [0, -1, 1], # F green mid right   3
+    [-1, 1, 0], # C white bottom left 4
+    [-1, 0, 1]  # D blue bottom blue  5
+    ]
+
+    GPIO.setmode(GPIO.BCM)
+
+    set_pin(0, -1)
+    set_pin(1, -1)
+    set_pin(2, -1)
+
+    while True:
+        x = int(input("Pin (0 to 5 / 9 to quit):"))
+        if(x == 9):
+            break
+        light_led(x, pin_led_states)
+    
+    GPIO.cleanup()
+#end of main
+
+if __name__ == "__main__":
+    main()
+#end of multi_led
