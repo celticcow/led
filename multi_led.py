@@ -19,6 +19,19 @@ def light_led(led_number, pin_led_states):
         set_pin(pin_index, pin_state)
 #end of light_led
 
+def uniq_rand(prev_int):
+    led_int = randint(0, 5)
+
+    if(led_int == prev_int):
+        led_int = randint(0, 5)
+        if(led_int == prev_int):
+            print("going recursive")
+            led_int = uniq_rand(led_int)
+        
+        return(led_int)
+    else:
+        return(led_int)
+#end of uniq_rand
 
 def main():
     debug = 1
@@ -46,9 +59,14 @@ def main():
             break
         light_led(x, pin_led_states)
     """
-    for i in range(25):
-        led_int = randint(0, 5)
+    prev_rand = -1
+
+    for i in range(50):
+        #led_int = randint(0, 5)
+        led_int = uniq_rand(prev_rand)
+
         print(str(led_int))
+        prev_rand = led_int
 
         light_led(led_int, pin_led_states)
         time.sleep(1)
